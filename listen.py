@@ -1,18 +1,17 @@
-
 from selenium import webdriver
 from selenium.webdriver import Firefox
 from selenium.webdriver.support.events import EventFiringWebDriver, AbstractEventListener
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-
+import test_
 
 
 class MyListener(AbstractEventListener):
     def before_navigate_to(self, url, driver):
-        print(driver,':',"open page:", '"' + url + '"')
+        print(driver, ':', "open page:", '"' + url + '"', file=test_.test_log)
 
     def after_navigate_to(self, url, driver):
-        print(driver,':','page' + '" ' + url + '"' +' opened')
+        print(driver, ':', 'page' + '" ' + url + '"' + ' opened', file=test_.test_log)
 
     def before_navigate_back(self, driver):
         print("before navigating back ", driver.current_url)
@@ -27,22 +26,22 @@ class MyListener(AbstractEventListener):
         print("After navigating forward ", driver.current_url)
 
     def before_find(self, by, value, driver):
-        print(driver,':',"driver find element with", by,' = '+ '"'+value+'"')
+        print(driver, ':', "driver find element with", by, ' = ' + '"' + value + '"', file=test_.test_log)
 
     def after_find(self, by, value, driver):
-        print(driver,':','element with ', by,' = '+ '"'+value+'"', 'selected')
+        print(driver, ':', 'element with ', by, ' = ' + '"' + value + '"', 'selected', file=test_.test_log)
 
     def before_click(self, element, driver):
-        print(driver,':','click on selected element ^')
+        print(driver, ':', 'click on selected element ^', file=test_.test_log)
 
     def after_click(self, element, driver):
-        print(driver,':',"clicked")
+        print(driver, ':', "clicked", file=test_.test_log)
 
     def before_change_value_of(self, element, driver):
-        print(driver,':',"input text in selected element ", )
+        print(driver, ':', "input text in selected element ", file=test_.test_log)
 
     def after_change_value_of(self, element, driver):
-        print(driver,':',"text entered ")
+        print(driver, ':', "text entered ", file=test_.test_log)
 
     def before_execute_script(self, script, driver):
         print("before_execute_script")
@@ -51,16 +50,16 @@ class MyListener(AbstractEventListener):
         print("after_execute_script")
 
     def before_close(self, driver):
-        print(driver,':',"close driver", driver.name)
+        print(driver, ':', "close driver", file=test_.test_log)
 
     def after_close(self, driver):
-        print(driver,':',driver.name , 'closed!')
+        print(driver, ':', 'closed!', file=test_.test_log)
 
     def before_quit(self, driver):
-        print(driver,':',"close driver",driver.name)
+        print(driver, ':', "close driver", file=test_.test_log)
 
     def after_quit(self, driver):
-        print(driver,':',driver.name, "closed!")
+        print(driver, ':', "closed!", file=test_.test_log)
 
     def on_exception(self, exception, driver):
         print("on_exception")
