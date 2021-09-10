@@ -8,7 +8,8 @@ from listen import MyListener
 from selenium.webdriver.support.events import EventFiringWebDriver, AbstractEventListener
 
 
-#fixture scope
+#fixture scope  для ініціалізації файла в який лістенер буде записувати дії драйвера
+
 
 @pytest.fixture  # Driver fixture
 def driver():
@@ -24,29 +25,25 @@ def driver():
 def test_currency_comparison(driver, value):  # 2
     page = MainPage(driver)
     page.open_page(MainPage.url)
-    page.change_dropdown_value(MainPage.currency_dropdown[0], MainPage.currency_dropdown[1],
-                                     MainPage.currency_dropdown_value[0], MainPage.currency_dropdown_value[1] + value + "')] ")
-    assert page.get_element_text(page.currency_dropdown_current_value[0], page.currency_dropdown_current_value[1])[-1] \
-           == page.get_element_text(page.product_cards_currency[0], page.product_cards_currency[1])[-1]
+    page.change_dropdown_value(*MainPage.currency_dropdown, *MainPage.currency_dropdown_value, value)
+    assert page.get_element_text(*page.currency_dropdown_current_value)[-1] == page.get_element_text(*page.product_cards_currency)[-1]
 
 
 def test_total_search_products(driver):
     page = MainPage(driver)
     page.open_page(MainPage.url)
     page.search('dress')
-    assert page.count_elements(page.product_cards[0], page.product_cards[1]) \
-           == int(page.get_element_text(page.total_search_products[0], page.total_search_products[1])[-2])
+    assert page.count_elements(*page.product_cards) == int(page.get_element_text(*page.total_search_products)[-2])
 
 @pytest.mark.parametrize('value', ['USD'])    # ['UAH', 'EUR', 'USD']
 def test_check_product_cards_currency(driver,value):  # 6
     page = MainPage(driver)
     page.open_page(MainPage.url)
     page.search('dress')
-    page.change_dropdown_value(MainPage.currency_dropdown[0], MainPage.currency_dropdown[1],
-                               MainPage.currency_dropdown_value[0], MainPage.currency_dropdown_value[1] + value + "')] ")
-    cards = page.get_elements_list(page.product_cards_currency[0], page.product_cards_currency[1])
+    page.change_dropdown_value(*MainPage.currency_dropdown, *MainPage.currency_dropdown_value, value)
+    cards = page.get_elements_list(*page.product_cards_currency)
     for card in cards:
-        assert card.text[-1] == page.get_element_text(page.currency_dropdown_current_value[0], page.currency_dropdown_current_value[1])[-1]
+        assert card.text[-1] == page.get_element_text(*page.currency_dropdown_current_value)[-1]
 
 
 

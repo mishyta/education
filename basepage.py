@@ -28,6 +28,6 @@ class BasePage():
     def get_elements_list(self, locator, value):
         return self.driver.find_elements(locator, value)
 
-    def change_dropdown_value(self, dropdown_locator, dropdown_locator_value, dropdown_value_locator, dropdown_value_locator_value ):
+    def change_dropdown_value(self, dropdown_locator, dropdown_locator_value, dropdown_value_locator, dropdown_value_locator_value, value ):
         self.click_on_element(dropdown_locator, dropdown_locator_value) #open dropdown
-        self.click_on_element(dropdown_value_locator, dropdown_value_locator_value) #select dropdown value
+        self.click_on_element(dropdown_value_locator, dropdown_value_locator_value + value + "')] ") #select dropdown value
