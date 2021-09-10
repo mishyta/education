@@ -10,22 +10,24 @@ class BasePage():
     def open_page(self, url):
         self.driver.get(url)
 
-    def get_element_text(self, lokator, value):
-        return self.driver.find_element(lokator, value).text
+    def get_element_text(self, locator, value):
+        return self.driver.find_element(locator, value).text
 
-    def click_on_element(self, lokator, value):
-        self.driver.find_element(lokator, value).click()
+    def click_on_element(self, locator, value):
+        self.driver.find_element(locator, value).click()
 
-    def input_elemnt(self, lokator, value, text):
-        self.driver.find_element(lokator, value).send_keys(text)
+    def input_elemnt(self, locator, value, text):
+        self.driver.find_element(locator, value).send_keys(text)
 
-    def search_elements(self, lokator, value):
-        return self.driver.find_elements(lokator, value)
+    def search_elements(self, locator, value):
+        return self.driver.find_elements(locator, value)
 
-    def count_elements(self, lokator, value):
-        return len(self.driver.find_elements(lokator, value))
+    def count_elements(self, locator, value):
+        return len(self.driver.find_elements(locator, value))
 
-    def get_elements_list(self, lokator, value):
-        return self.driver.find_elements(lokator, value)
+    def get_elements_list(self, locator, value):
+        return self.driver.find_elements(locator, value)
 
-
+    def change_dropdown_value(self, dropdown_locator, dropdown_locator_value, dropdown_value_locator, dropdown_value_locator_value ):
+        self.click_on_element(dropdown_locator, dropdown_locator_value) #open dropdown
+        self.click_on_element(dropdown_value_locator, dropdown_value_locator_value) #select dropdown value

@@ -39,10 +39,10 @@ class MyListener(AbstractEventListener):
         print(driver,':',"clicked")
 
     def before_change_value_of(self, element, driver):
-        print(driver,"input text in selected element ", )
+        print(driver,':',"input text in selected element ", )
 
     def after_change_value_of(self, element, driver):
-        print(driver,"text entered ")
+        print(driver,':',"text entered ")
 
     def before_execute_script(self, script, driver):
         print("before_execute_script")
