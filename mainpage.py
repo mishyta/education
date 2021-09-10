@@ -10,9 +10,14 @@ class MainPage(BasePage):
     currency_dropdown_uah               =   [By.XPATH, '//*[@id="_desktop_currency_selector"]/div/ul/li[2]/a']
     currency_dropdown_eur               =   [By.XPATH, '//*[@id="_desktop_currency_selector"]/div/ul/li[1]/a']
     currency_dropdown_current_value     =   [By.XPATH, '//*[@id="_desktop_currency_selector"]/div/span[2]']
-    goods_currency                      =   [By.XPATH, '//*[@id="content"]/section/div/article[1]/div/div[1]/div/span']
+    product_cards_currency              =   [By.XPATH, '//*[@id="content"]/section/div/article[1]/div/div[1]/div/span']
+    product_cards                       =   [By.CLASS_NAME, 'thumbnail-container']
+    total_search_products               =   [By.XPATH, '//*[@id="js-product-list-top"]/div[1]/p']
     search_input                        =   [By.XPATH, '//*[@id="search_widget"]/form/input[2]']
     submit_search_btn                   =   [By.XPATH, '//*[@id="search_widget"]/form/button/i']
+    sort_dropdown                       =   [By.XPATH, '//*[@id="js-product-list-top"]/div[2]/div/div/a']
+
+
 
     def change_page_currency(self, value):
         self.click_on_element(MainPage.currency_dropdown[0], MainPage.currency_dropdown[1])
@@ -22,6 +27,21 @@ class MainPage(BasePage):
             self.click_on_element(MainPage.currency_dropdown_eur[0],MainPage.currency_dropdown_eur[1])
         elif value == 'UAH':
             self.click_on_element(MainPage.currency_dropdown_uah[0],MainPage.currency_dropdown_uah[1])
+        else:
+            pass
+
+    def change_sort(self, value):
+        self.click_on_element()
+        if value == 'Relevance':
+            self.click_on_element()
+        elif value == 'Name: from A to Z':
+            self.click_on_element()
+        elif value == 'Name: from Z to A':
+            self.click_on_element()
+        elif value == 'Price, low to high':
+            self.click_on_element()
+        elif value == 'Price, high to low':
+            self.click_on_element()
         else:
             pass
 

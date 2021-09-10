@@ -22,3 +22,10 @@ class BasePage():
     def search_elements(self, lokator, value):
         return self.driver.find_elements(lokator, value)
 
+    def count_elements(self, lokator, value):
+        return len(self.driver.find_elements(lokator, value))
+
+    def get_elements_list(self, lokator, value):
+        return self.driver.find_elements(lokator, value)
+
+
