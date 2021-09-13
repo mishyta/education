@@ -1,5 +1,8 @@
 from selenium import webdriver
-
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 
 class BasePage():
 
@@ -27,8 +30,22 @@ class BasePage():
     def get_elements_list(self, locator, value):
         return self.driver.find_elements(locator, value)
 
+    def get_elements(self,locator, value):
+        return self.driver.find_elements(locator, value)
+
     def change_dropdown_value(self, dropdown_locator, dropdown_locator_value, dropdown_value_locator,
                               dropdown_value_locator_value, value):
         self.click_on_element(dropdown_locator, dropdown_locator_value)  # open dropdown
         self.click_on_element(dropdown_value_locator,
                               dropdown_value_locator_value + value + "')] ")  # select dropdown value
+        WebDriverWait(self.driver, 10).until(EC.text_to_be_present_in_element((dropdown_value_locator,dropdown_value_locator_value + value + "')] "),value))
+
+    def check_element_is(self, locator, value):
+        try:
+            self.driver.find_element(locator,value)
+        except NoSuchElementException:
+            return False
+        return True
+
+    def get_element_digit(self,locator,value):
+        return int(''.join(filter(str.isdigit, ((self.driver.find_element(locator,value)).text))))
