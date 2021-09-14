@@ -10,7 +10,7 @@ from selenium.webdriver.support.events import EventFiringWebDriver, AbstractEven
 # fixture scope  для ініціалізації файла в який лістенер буде записувати дії драйвера
 
 test_log = open('webdriver.log', 'w')
-
+test_log.close()
 
 @pytest.fixture  # Driver fixture
 def driver():
@@ -77,3 +77,5 @@ def test_check_product_matching_discount(driver):
         card = ProductCard(card)
         if card.check_element_is(*card.discount):
             card.check_product_discount()
+
+

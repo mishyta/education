@@ -50,8 +50,5 @@ class ProductCard(BasePage):
     discount = [By.CLASS_NAME, 'discount-percentage']
 
     def check_product_discount(self):
-        if self.check_element_is(*ProductCard.discount):
-            assert (round((self.get_element_digit(*ProductCard.regular_price) -
-                           self.get_element_digit(*ProductCard.price)) /
-                          self.get_element_digit(*ProductCard.regular_price) * 100)) \
-                   == self.get_element_digit(*ProductCard.discount)
+        x = (self.get_element_digit(*ProductCard.regular_price) - self.get_element_digit(*ProductCard.price)) / self.get_element_digit(*ProductCard.regular_price) * 100
+        assert (round(x)) == self.get_element_digit(*ProductCard.discount)
