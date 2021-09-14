@@ -8,7 +8,8 @@ from selenium.webdriver.support.ui import Select
 from decimal import Decimal
 import re
 
-class BasePage():
+
+class BasePage:
 
     def __init__(self, driver):
         self.driver = driver
@@ -34,26 +35,29 @@ class BasePage():
     def get_elements_list(self, locator, value):
         return self.driver.find_elements(locator, value)
 
-    def get_elements(self,locator, value):
+    def get_elements(self, locator, value):
         return self.driver.find_elements(locator, value)
 
     def change_dropdown_value(self, dropdown_value_locator, dropdown_value_locator_value, value):
-        self.click_on_element(dropdown_value_locator, dropdown_value_locator_value + value + "')] ")  # select dropdown value
-        WebDriverWait(self.driver, 10).until(EC.text_to_be_present_in_element((dropdown_value_locator,dropdown_value_locator_value + value + "')] "),value))
+        self.click_on_element(dropdown_value_locator,
+                              dropdown_value_locator_value + value + "')] ")  # select dropdown value
+        WebDriverWait(self.driver, 10).until(
+            EC.text_to_be_present_in_element((dropdown_value_locator, dropdown_value_locator_value + value + "')] "),
+                                             value))
 
     def check_element_is(self, locator, value):
         try:
-            self.driver.find_element(locator,value)
+            self.driver.find_element(locator, value)
         except NoSuchElementException:
             return False
         return True
 
-    def get_element_digitt(self,locator,value):
-        price = self.driver.find_element(locator,value).text
-        price = ''.join(filter(str.isdigit, price))
-        return int(price)
-
-    def get_element_digit(self,locator,value):
+    def get_element_digit(self, locator, value):
         price = self.driver.find_element(locator, value).text
         price = re.sub('\D', '', price)
+        return int(price)
+
+    def get_element_digit_(self, locator, value):
+        price = self.driver.find_element(locator, value).text
+        price = ''.join(filter(str.isdigit, price))
         return int(price)
