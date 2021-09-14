@@ -5,7 +5,7 @@ from selenium.common.exceptions import NoSuchElementException
 class MainPage(BasePage):
     url = 'http://prestashop-automation.qatestlab.com.ua/ru/'
 
-    currency_dropdown                   = [By.XPATH, '//*[@id="_desktop_currency_selector"]/div']
+    currency_dropdown                   = [By.XPATH, '//*[@class="currency-selector dropdown js-dropdown"]']
     currency_dropdown_value             = [By.XPATH, '//*[@id="_desktop_currency_selector"]//*[contains(text(),\'']
     currency_dropdown_current_value     = [By.XPATH, '//*[@id="_desktop_currency_selector"]/div/span[2]']
     product_cards_currency              = [By.XPATH, "//*[@class='thumbnail-container']//*[@class='price']"]
@@ -40,8 +40,16 @@ class MainPage(BasePage):
 
     def check_product_discount(self):
         if self.check_element_is(*MainPage.product_discount) == True:
-            assert ((self.get_element_digit(*MainPage.product_regular_price) -
-                    self.get_element_digit(*MainPage.product_price))/self.get_element_digit(*MainPage.product_regular_price)/100) == \
+            assert (round((self.get_element_digit(*MainPage.product_regular_price) -
+                    self.get_element_digit(*MainPage.product_price))/self.get_element_digit(*MainPage.product_regular_price)*100)) == \
                    self.get_element_digit(*MainPage.product_discount)
 
+
+    def change_page_curency(self,value):
+        self.click_on_element(*MainPage.currency_dropdown)
+        self.change_dropdown_value(*MainPage.currency_dropdown_value,value)
+
+    def sort_products(self,value):
+        self.click_on_element(*MainPage.sort_dropdown)
+        self.change_dropdown_value(*MainPage.sort_dropdown_value,value)
 

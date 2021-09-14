@@ -3,6 +3,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium import webdriver
+from selenium.webdriver.support.ui import Select
+from decimal import Decimal
+import re
 
 class BasePage():
 
@@ -33,11 +37,8 @@ class BasePage():
     def get_elements(self,locator, value):
         return self.driver.find_elements(locator, value)
 
-    def change_dropdown_value(self, dropdown_locator, dropdown_locator_value, dropdown_value_locator,
-                              dropdown_value_locator_value, value):
-        self.click_on_element(dropdown_locator, dropdown_locator_value)  # open dropdown
-        self.click_on_element(dropdown_value_locator,
-                              dropdown_value_locator_value + value + "')] ")  # select dropdown value
+    def change_dropdown_value(self, dropdown_value_locator, dropdown_value_locator_value, value):
+        self.click_on_element(dropdown_value_locator, dropdown_value_locator_value + value + "')] ")  # select dropdown value
         WebDriverWait(self.driver, 10).until(EC.text_to_be_present_in_element((dropdown_value_locator,dropdown_value_locator_value + value + "')] "),value))
 
     def check_element_is(self, locator, value):
@@ -47,5 +48,12 @@ class BasePage():
             return False
         return True
 
+    def get_element_digitt(self,locator,value):
+        price = self.driver.find_element(locator,value).text
+        price = ''.join(filter(str.isdigit, price))
+        return int(price)
+
     def get_element_digit(self,locator,value):
-        return int(''.join(filter(str.isdigit, ((self.driver.find_element(locator,value)).text))))
+        price = self.driver.find_element(locator, value).text
+        price = re.sub('\D', '', price)
+        return int(price)
