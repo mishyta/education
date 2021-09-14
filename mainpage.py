@@ -9,11 +9,6 @@ class MainPage(BasePage):
     currency_dropdown = [By.XPATH, '//*[@class="currency-selector dropdown js-dropdown"]']
     currency_dropdown_value = [By.XPATH, '//*[@id="_desktop_currency_selector"]//*[contains(text(),\'']
     currency_dropdown_current_value = [By.XPATH, '//*[@id="_desktop_currency_selector"]/div/span[2]']
-    product_cards_currency = [By.XPATH, "//*[@class='thumbnail-container']//*[@class='price']"]
-    product_cards = [By.XPATH, '//*[@class="thumbnail-container"]']
-    product_price = [By.CLASS_NAME, 'price']
-    product_regular_price = [By.CLASS_NAME, 'regular-price']
-    product_discount = [By.CLASS_NAME, 'discount-percentage']
     total_search_products = [By.XPATH, '//*[@id="js-product-list-top"]/div[1]/p']
     search_input = [By.XPATH, '//*[@id="search_widget"]/form/input[2]']
     submit_search_btn = [By.XPATH, '//*[@id="search_widget"]/form/button/i']
@@ -24,25 +19,18 @@ class MainPage(BasePage):
         self.input_element(*MainPage.search_input, value)  # input text to search widget
         self.click_on_element(*MainPage.submit_search_btn)
 
-    def get_regular_prices_of_goods(self):
-        cards = self.get_elements(*MainPage.product_cards)
+    def get_list_with_regular_prices(self):
+        cards = self.get_elements(*ProductCard.locator)
         prices_list = list()
         for card in cards:
-            card = MainPage(card)
+            card = ProductCard(card)
             try:
-                card.driver.find_element(*MainPage.product_regular_price)
+                card.driver.find_element(*card.regular_price)
             except NoSuchElementException:
-                prices_list.append(card.get_element_digit(*MainPage.product_price))
+                prices_list.append(card.get_element_digit(*card.price))
                 continue
-            prices_list.append(card.get_element_digit(*MainPage.product_regular_price))
+            prices_list.append(card.get_element_digit(*card.regular_price))
         return prices_list
-
-    def check_product_discount(self):
-        if self.check_element_is(*MainPage.product_discount):
-            assert (round((self.get_element_digit(*MainPage.product_regular_price) -
-                           self.get_element_digit(*MainPage.product_price)) / self.get_element_digit(
-                *MainPage.product_regular_price) * 100)) == \
-                   self.get_element_digit(*MainPage.product_discount)
 
     def change_page_currency(self, value):
         self.click_on_element(*MainPage.currency_dropdown)
@@ -51,3 +39,19 @@ class MainPage(BasePage):
     def sort_products(self, value):
         self.click_on_element(*MainPage.sort_dropdown)
         self.change_dropdown_value(*MainPage.sort_dropdown_value, value)
+
+
+class ProductCard(BasePage):
+
+    locator = [By.XPATH, '//*[@class="thumbnail-container"]']
+    currency = [By.XPATH, "//*[@class='thumbnail-container']//*[@class='price']"]
+    price = [By.CLASS_NAME, 'price']
+    regular_price = [By.CLASS_NAME, 'regular-price']
+    discount = [By.CLASS_NAME, 'discount-percentage']
+
+    def check_product_discount(self):
+        if self.check_element_is(*ProductCard.discount):
+            assert (round((self.get_element_digit(*ProductCard.regular_price) -
+                           self.get_element_digit(*ProductCard.price)) /
+                          self.get_element_digit(*ProductCard.regular_price) * 100)) \
+                   == self.get_element_digit(*ProductCard.discount)
