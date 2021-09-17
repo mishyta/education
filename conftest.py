@@ -1,5 +1,4 @@
 import logging
-
 import pytest
 from selenium import webdriver
 from listen import MyListener
@@ -7,28 +6,29 @@ from selenium.webdriver.support.events import EventFiringWebDriver
 import allure
 import subprocess
 
-logging.basicConfig(filename='webdriver.log',level=logging.INFO)
+ALLURE_REPORT_DIR = 'allure-results'
+
+logging.basicConfig(filename='webdriver.log', level=logging.INFO, format='[%(levelname)s][%(asctime)s]:%(message)s')
+open('webdriver.log', 'w').close()
+
 
 def pytest_configure(config):
-
-    config.option.allure_report_dir = 'D:\\tasks\\1\\allure-results'
+    config.option.allure_report_dir = ALLURE_REPORT_DIR
     config.option.clean_alluredir = True
 
-@pytest.fixture(scope='session',autouse=True)
-def allure_generate():
-    yield
-    subprocess.check_output(['allure', 'generate','--clean'], shell=True)
 
-
+def pytest_sessionfinish():
+    subprocess.check_output(['allure', 'generate', '--clean'], shell=True)
 
 
 
 @pytest.fixture()  # Driver fixture
 def driver():
-    driver = EventFiringWebDriver(webdriver.Firefox(), MyListener())
     with allure.step('Driver init'):
-         pass
+        driver = EventFiringWebDriver(webdriver.Firefox(), MyListener())
     yield driver
-    driver.quit()
     with allure.step('driver teardown'):
-         pass
+        driver.quit()
+
+
+
