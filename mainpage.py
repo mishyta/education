@@ -1,7 +1,8 @@
 from basepage import BasePage
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-from decimal import Decimal,ROUND_HALF_UP
+from decimal import Decimal, ROUND_HALF_UP
+
 
 class MainPage(BasePage):
     url = 'http://prestashop-automation.qatestlab.com.ua/ru/'
@@ -42,7 +43,6 @@ class MainPage(BasePage):
 
 
 class ProductCard(BasePage):
-
     locator = [By.XPATH, '//*[@class="thumbnail-container"]']
     currency = [By.XPATH, "//*[@class='thumbnail-container']//*[@class='price']"]
     price = [By.CLASS_NAME, 'price']
@@ -50,7 +50,8 @@ class ProductCard(BasePage):
     discount = [By.CLASS_NAME, 'discount-percentage']
 
     def check_product_discount(self):
-        disc = (self.get_element_digit(*ProductCard.regular_price) - self.get_element_digit(*ProductCard.price)) / self.get_element_digit(*ProductCard.regular_price)
+        disc = (self.get_element_digit(*ProductCard.regular_price) - self.get_element_digit(
+            *ProductCard.price)) / self.get_element_digit(*ProductCard.regular_price)
         disc = Decimal(disc)
-        disc = disc.quantize(Decimal("1.00"), ROUND_HALF_UP)*100
+        disc = disc.quantize(Decimal("1.00"), ROUND_HALF_UP) * 100
         assert disc == self.get_element_digit(*ProductCard.discount)
