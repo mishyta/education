@@ -6,64 +6,64 @@ from selenium.webdriver.common.keys import Keys
 import logging
 
 
-# test_log = open('webdriver.log', 'a')
 
 class MyListener(AbstractEventListener):
     def before_navigate_to(self, url, driver):
-        logging.info('test')
+        logging.info('{}:open page with url:"{}".'.format(driver,url))
 
-    # def after_navigate_to(self, url, driver):
-    #     print(driver, ':', 'page' + '" ' + url + '"' + ' opened', file=test_log)
-    #
-    # def before_navigate_back(self, driver):
-    #     print("before navigating back ", driver.current_url)
-    #
-    # def after_navigate_back(self, driver):
-    #     print("After navigating back ", driver.current_url)
-    #
-    # def before_navigate_forward(self, driver):
-    #     print("before navigating forward ", driver.current_url)
-    #
-    # def after_navigate_forward(self, driver):
-    #     print("After navigating forward ", driver.current_url)
-    #
-    # def before_find(self, by, value, driver):
-    #     print(driver, ':', "driver find element with", by, ' = ' + '"' + value + '"', file=test_log)
-    #
-    # def after_find(self, by, value, driver):
-    #     print(driver, ':', 'element with ', by, ' = ' + '"' + value + '"', 'selected', file=test_log)
-    #
-    # def before_click(self, element, driver):
-    #     print(driver, ':', 'click on selected element ^', file=test_log)
-    #
-    # def after_click(self, element, driver):
-    #     print(driver, ':', "clicked", file=test_log)
-    #
-    # def before_change_value_of(self, element, driver):
-    #     print(driver, ':', "input text in selected element ", file=test_log)
-    #
-    # def after_change_value_of(self, element, driver):
-    #     print(driver, ':', "text entered ", file=test_log)
-    #
-    # def before_execute_script(self, script, driver):
-    #     print("before_execute_script")
-    #
-    # def after_execute_script(self, script, driver):
-    #     print("after_execute_script")
-    #
-    # def before_close(self, driver):
-    #     print(driver, ':', "close driver", file=test_log)
-    #
-    # def after_close(self, driver):
-    #     print(driver, ':', 'closed!', file=test_log)
-    #
-    # def before_quit(self, driver):
-    #     print(driver, ':', "close driver", file=test_log)
-    #
-    # def after_quit(self, driver):
-    #     print(driver, ':', "closed!", file=test_log)
-    #
-    # def on_exception(self, exception, driver):
-    #     print("on_exception")
+    def after_navigate_to(self, url, driver):
 
+        logging.info('{}:page with url:"{}", opened.'.format(driver,url))
+
+    def before_navigate_back(self, driver):
+        logging.warning('not described: "before_navigate_back".')
+
+    def after_navigate_back(self, driver):
+        logging.warning('not described: "after_navigate_back".')
+
+    def before_navigate_forward(self, driver):
+        logging.warning('not described: "before_navigate_forward".')
+
+    def c(self, driver):
+        logging.warning('not described: "after_navigate_forward".')
+
+    def before_find(self, by, value, driver):
+        logging.info('{}:find element with {} = "{}".'.format(driver,by,value))
+
+    def after_find(self, by, value, driver):
+        logging.info('{}:element with {} = "{}" selected.'.format(driver,by,value))
+
+    def before_click(self, element, driver):
+        logging.info('{}:click on ellement.'.format(driver))
+
+    def after_click(self, element, driver):
+        logging.info('{}:clicked'.format(driver))
+
+    def before_change_value_of(self, element, driver):
+
+        logging.info('{}:enter text in the selected item.'.format(driver))
+
+    def after_change_value_of(self, element, driver):
+        logging.info('{}:text entered.'.format(driver))
+
+    def before_execute_script(self, script, driver):
+        logging.warning('not described: "before_execute_script"')
+
+    def after_execute_script(self, script, driver):
+        logging.warning('not described: "after_execute_script"')
+
+    def before_close(self, driver):
+        logging.warning('not described: "before_close"')
+
+    def after_close(self, driver):
+        logging.warning('not described: "after_close"')
+
+    def before_quit(self, driver):
+        logging.info('{}:teardowning the driver.'.format(driver))
+
+    def after_quit(self, driver):
+        logging.info('{}:driver teardowned.'.format(driver))
+
+    def on_exception(self, exception, driver):
+        logging.info(('{}:on_exception: {}'.format(driver, exception))[:-1])
 
