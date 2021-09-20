@@ -7,7 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from decimal import Decimal
 import re
-
+import allure
 
 class BasePage:
 
@@ -15,7 +15,8 @@ class BasePage:
         self.driver = driver
 
     def open_page(self, url):
-        self.driver.get(url)
+        with allure.step('Open page:'+url):
+            self.driver.get(url)
 
     def get_element_text(self, locator, value):
         return self.driver.find_element(locator, value).text

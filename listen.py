@@ -8,6 +8,7 @@ import logging
 
 
 class MyListener(AbstractEventListener):
+
     def before_navigate_to(self, url, driver):
         logging.info('{}:open page with url:"{}".'.format(driver,url))
 
@@ -24,7 +25,7 @@ class MyListener(AbstractEventListener):
     def before_navigate_forward(self, driver):
         logging.warning('not described: "before_navigate_forward".')
 
-    def c(self, driver):
+    def after_navigate_forward(self, driver):
         logging.warning('not described: "after_navigate_forward".')
 
     def before_find(self, by, value, driver):
