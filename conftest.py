@@ -30,6 +30,7 @@ open(LOGGING_FILE, 'w').close()
 def driver():
     driver = EventFiringWebDriver(webdriver.Remote(command_executor='http://10.8.0.99:4444/wd/hub',desired_capabilities=DesiredCapabilities.CHROME), MyListener())
     driver.maximize_window()
+    driver.implicitly_wait(30)
     yield driver
     driver.quit()
 
