@@ -40,8 +40,8 @@ class MainPage(BasePage):
     def change_page_currency(self, value):
 
         self.click_on_element(*MainPage.currency_dropdown)
-        locator = [By.XPATH,'//*[@id="_desktop_currency_selector"]//*[contains(text(),"USD")]']
-        WebDriverWait(self.driver, 10).until(EC.text_to_be_present_in_element((locator), 'USD'))
+        # locator = [By.XPATH,'//*[@id="_desktop_currency_selector"]//*[contains(text(),"USD")]']
+        # WebDriverWait(self.driver, 10).until(EC.text_to_be_present_in_element((locator), 'USD'))
         self.change_dropdown_value(*MainPage.currency_dropdown_value, value)
 
     def sort_products(self, value):
