@@ -29,7 +29,8 @@ open(LOGGING_FILE, 'w').close()
 @pytest.fixture()  # Driver fixture
 def driver():
     driver = EventFiringWebDriver(webdriver.Remote(command_executor='http://10.8.0.99:4444/wd/hub',desired_capabilities=DesiredCapabilities.FIREFOX), MyListener())
-    driver.implicitly_wait(10)
+    # driver = EventFiringWebDriver(webdriver.Chrome(), MyListener())
+    driver.implicitly_wait(0.3)
     yield driver
     driver.quit()
 
