@@ -4,7 +4,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from decimal import Decimal, ROUND_HALF_UP
-import allure
+
 
 
 class MainPage(BasePage):
@@ -20,9 +20,9 @@ class MainPage(BasePage):
     sort_dropdown_value = [By.XPATH, '//*[@class="row sort-by-row"]//*[contains(text(),\'']
 
     def search(self, value):
-        with allure.step('Search on page:"{}"'.format(value)):
-            self.input_element(*MainPage.search_input, value)  # input text to search widget
-            self.click_on_element(*MainPage.submit_search_btn)
+
+        self.input_element(*MainPage.search_input, value)  # input text to search widget
+        self.click_on_element(*MainPage.submit_search_btn)
 
     def get_list_with_regular_prices(self):
         cards = self.get_elements(*ProductCard.locator)
@@ -38,16 +38,16 @@ class MainPage(BasePage):
         return prices_list
 
     def change_page_currency(self, value):
-        with allure.step('Change page currency to "{}"'.format(value)):
-            self.click_on_element(*MainPage.currency_dropdown)
-            locator = [By.XPATH,'//*[@id="_desktop_currency_selector"]//*[contains(text(),"USD")]']
-            WebDriverWait(self.driver, 10).until(EC.text_to_be_present_in_element((locator), 'USD'))
-            self.change_dropdown_value(*MainPage.currency_dropdown_value, value)
+
+        self.click_on_element(*MainPage.currency_dropdown)
+        locator = [By.XPATH,'//*[@id="_desktop_currency_selector"]//*[contains(text(),"USD")]']
+        WebDriverWait(self.driver, 10).until(EC.text_to_be_present_in_element((locator), 'USD'))
+        self.change_dropdown_value(*MainPage.currency_dropdown_value, value)
 
     def sort_products(self, value):
-        with allure.step('Sort products:"{}"'.format(value)):
-            self.click_on_element(*MainPage.sort_dropdown)
-            self.change_dropdown_value(*MainPage.sort_dropdown_value, value)
+
+        self.click_on_element(*MainPage.sort_dropdown)
+        self.change_dropdown_value(*MainPage.sort_dropdown_value, value)
 
 
 class ProductCard(BasePage):
