@@ -44,7 +44,7 @@ def test_check_product_cards_currency(driver, value):  # 6
 
 
 
-def test_check_sort_price_high_to_low(driver):
+def dtest_check_sort_price_high_to_low(driver):
     page = MainPage(driver)
     page.open_page(page.url)
     page.search('dress')
