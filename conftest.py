@@ -3,6 +3,7 @@ import pytest
 from selenium import webdriver
 from listen import MyListener
 from selenium.webdriver.support.events import EventFiringWebDriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
 
@@ -27,7 +28,7 @@ open(LOGGING_FILE, 'w').close()
 
 @pytest.fixture()  # Driver fixture
 def driver():
-    driver = EventFiringWebDriver(webdriver.Chrome(), MyListener())
+    driver = EventFiringWebDriver(webdriver.Remote(command_executor='http://10.8.0.99:4444/wd/hub',desired_capabilities=DesiredCapabilities.CHROME), MyListener())
     driver.maximize_window()
     yield driver
     driver.quit()

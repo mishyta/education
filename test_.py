@@ -1,5 +1,5 @@
 import logging
-import subprocess
+
 import pytest
 from mainpage import MainPage, ProductCard
 from selenium import webdriver
