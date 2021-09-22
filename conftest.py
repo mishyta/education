@@ -4,7 +4,7 @@ from selenium import webdriver
 from listen import MyListener
 from selenium.webdriver.support.events import EventFiringWebDriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-
+import allure
 
 
 
