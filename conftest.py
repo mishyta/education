@@ -22,14 +22,23 @@ open(LOGGING_FILE, 'w').close()
 
 
 
+capabilities = {
+    "browserName": "firefox",
+    "browserVersion": "92.0",
+    "selenoid:options": {
+        "enableVNC": True,
+        "enableVideo": False
+    }
+}
 
 
 
 
 @pytest.fixture()  # Driver fixture
 def driver():
-    driver = webdriver.Remote(command_executor='http://10.8.0.99:4444/wd/hub', desired_capabilities=DesiredCapabilities.FIREFOX)
-    # driver = EventFiringWebDriver(webdriver.Chrome(), MyListener())
+    driver = webdriver.Remote(
+        command_executor="http://10.8.0.99:4444/wd/hub",
+        desired_capabilities=capabilities)
     driver.implicitly_wait(0.3)
     yield driver
     driver.quit()
