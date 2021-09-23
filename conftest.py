@@ -33,7 +33,7 @@ capabilities = {
 
 def pytest_configure(config):
     config.option.allure_report_dir = 'allure-results'
-    config.option.clean_alluredir = False
+    config.option.clean_alluredir = True
 
 
 @pytest.fixture()  # Driver fixture
