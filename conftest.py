@@ -3,7 +3,7 @@ import pytest
 from selenium import webdriver
 from listen import MyListener
 from selenium.webdriver.support.events import EventFiringWebDriver
-
+from allure_commons.types import AttachmentType
 import allure
 
 
@@ -27,7 +27,7 @@ capabilities = {
     "browserVersion": "92.0",
     "selenoid:options": {
         "enableVNC": True,
-        "enableVideo": False
+        "enableVideo": True
     }
 }
 
@@ -44,6 +44,7 @@ def driver():
         driver.implicitly_wait(0.3)
     yield driver
     with allure.step('Driver teardown.'):
+        allure.attach(driver.get_screenshot_as_png(), name='Screenshot', attachment_type=AttachmentType.PNG)
         driver.quit()
 
 
