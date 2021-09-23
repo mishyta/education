@@ -1,10 +1,12 @@
+import allure
+
 from basepage import BasePage
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from decimal import Decimal, ROUND_HALF_UP
-
+import allure
 
 
 class MainPage(BasePage):
@@ -20,32 +22,33 @@ class MainPage(BasePage):
     sort_dropdown_value = [By.XPATH, '//*[@class="row sort-by-row"]//*[contains(text(),\'']
 
     def search(self, value):
-
-        self.input_element(*MainPage.search_input, value)  # input text to search widget
-        self.click_on_element(*MainPage.submit_search_btn)
+        with allure.step('search query: "{}"'.format(value)):
+            self.input_element(*MainPage.search_input, value)  # input text to search widget
+            self.click_on_element(*MainPage.submit_search_btn)
 
     def get_list_with_regular_prices(self):
-        cards = self.get_elements(*ProductCard.locator)
-        prices_list = list()
-        for card in cards:
-            card = ProductCard(card)
-            try:
-                card.driver.find_element(*card.regular_price)
-            except NoSuchElementException:
-                prices_list.append(card.get_element_digit(*card.price))
-                continue
-            prices_list.append(card.get_element_digit(*card.regular_price))
-        return prices_list
+        with allure.step('Get a list with discount items'):
+            cards = self.get_elements(*ProductCard.locator)
+            prices_list = list()
+            for card in cards:
+                card = ProductCard(card)
+                try:
+                    card.driver.find_element(*card.regular_price)
+                except NoSuchElementException:
+                    prices_list.append(card.get_element_digit(*card.price))
+                    continue
+                prices_list.append(card.get_element_digit(*card.regular_price))
+            return prices_list
 
     def change_page_currency(self, value):
-
-        self.click_on_element(*MainPage.currency_dropdown)
-        self.change_dropdown_value(*MainPage.currency_dropdown_value, value)
+        with allure.step('Change the currency of the page on {}'.format(value)):
+            self.click_on_element(*MainPage.currency_dropdown)
+            self.change_dropdown_value(*MainPage.currency_dropdown_value, value)
 
     def sort_products(self, value):
-
-        self.click_on_element(*MainPage.sort_dropdown)
-        self.change_dropdown_value(*MainPage.sort_dropdown_value, value)
+        with allure.step('Sort goods: {}'.format(value)):
+            self.click_on_element(*MainPage.sort_dropdown)
+            self.change_dropdown_value(*MainPage.sort_dropdown_value, value)
 
 
 class ProductCard(BasePage):
@@ -56,8 +59,9 @@ class ProductCard(BasePage):
     discount = [By.CLASS_NAME, 'discount-percentage']
 
     def check_product_discount(self):
-        disc = (self.get_element_digit(*ProductCard.regular_price) - self.get_element_digit(
-            *ProductCard.price)) / self.get_element_digit(*ProductCard.regular_price)
-        disc = Decimal(disc)
-        disc = disc.quantize(Decimal("1.00"), ROUND_HALF_UP) * 100
-        assert disc == self.get_element_digit(*ProductCard.discount)
+        with allure.step('check discount match '):
+            disc = (self.get_element_digit(*ProductCard.regular_price) - self.get_element_digit(
+                *ProductCard.price)) / self.get_element_digit(*ProductCard.regular_price)
+            disc = Decimal(disc)
+            disc = disc.quantize(Decimal("1.00"), ROUND_HALF_UP) * 100
+            assert disc == self.get_element_digit(*ProductCard.discount)

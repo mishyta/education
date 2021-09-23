@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from listen import MyListener
 from selenium.webdriver.support.events import EventFiringWebDriver, AbstractEventListener
+import allure
 
 
 
@@ -16,9 +17,9 @@ def test_currency_comparison(driver, value):  # 2
     page = MainPage(driver)
     page.open_page(page.url)
     page.change_page_currency(value)
-
-    assert page.get_element_text(*page.currency_dropdown_current_value)[-1] == \
-           page.get_element_text(*ProductCard.currency)[-1]
+    with allure.step('Assert page currency == products currency '.format(value)):
+        assert page.get_element_text(*page.currency_dropdown_current_value)[-1] == \
+               page.get_element_text(*ProductCard.currency)[-1]
 
 
 
@@ -26,8 +27,8 @@ def test_total_search_products(driver):
     page = MainPage(driver)
     page.open_page(page.url)
     page.search('dress')
-
-    assert page.count_elements(*ProductCard.locator) == int(page.get_element_text(*page.total_search_products)[-2])
+    with allure.step('Assert total search products == counter products of page'):
+        assert page.count_elements(*ProductCard.locator) == int(page.get_element_text(*page.total_search_products)[-2])
 
 
 
@@ -37,10 +38,10 @@ def test_check_product_cards_currency(driver, value):  # 6
     page.open_page(page.url)
     page.search('dress')
     page.change_page_currency(value)
-
-    cards = page.get_elements_list(*ProductCard.currency)
-    for card in cards:
-        assert card.text[-1] == page.get_element_text(*page.currency_dropdown_current_value)[-1]
+    with allure.step(''):
+        cards = page.get_elements_list(*ProductCard.currency)
+        for card in cards:
+            assert card.text[-1] == page.get_element_text(*page.currency_dropdown_current_value)[-1]
 
 
 

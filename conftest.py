@@ -3,14 +3,14 @@ import pytest
 from selenium import webdriver
 from listen import MyListener
 from selenium.webdriver.support.events import EventFiringWebDriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
 import allure
 
 
 
 
 LOGGING_FILE = 'webdriver.log'
-
+open(LOGGING_FILE, 'w').close()
 
 logging.basicConfig(
     filename=LOGGING_FILE,
@@ -20,7 +20,7 @@ logging.basicConfig(
 
 open(LOGGING_FILE, 'w').close()
 
-
+command_executor = "http://10.8.0.99:4444/wd/hub"
 
 capabilities = {
     "browserName": "firefox",
@@ -31,17 +31,20 @@ capabilities = {
     }
 }
 
-
+def pytest_configure(config):
+    config.option.allure_report_dir = 'allure-results'
+    config.option.clean_alluredir = False
 
 
 @pytest.fixture()  # Driver fixture
 def driver():
-    driver = webdriver.Remote(
-        command_executor="http://10.8.0.99:4444/wd/hub",
-        desired_capabilities=capabilities)
-    driver.implicitly_wait(0.3)
+    with allure.step('Init with capabilities: {}:{}'.format(capabilities['browserName'],capabilities['browserVersion'])):
+        driver = webdriver.Remote(command_executor=command_executor, desired_capabilities=capabilities)
+        driver = EventFiringWebDriver(driver,MyListener())
+        driver.implicitly_wait(0.3)
     yield driver
-    driver.quit()
+    with allure.step('Driver teardown.'):
+        driver.quit()
 
 
 
