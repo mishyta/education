@@ -42,6 +42,7 @@ def driver():
         driver = webdriver.Remote(command_executor=command_executor, desired_capabilities=capabilities)
         driver = EventFiringWebDriver(driver,MyListener())
         driver.implicitly_wait(0.3)
+        driver.maximize_window()
     yield driver
     with allure.step('Driver teardown.'):
         allure.attach(driver.get_screenshot_as_png(), name='Screenshot', attachment_type=AttachmentType.PNG)
