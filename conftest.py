@@ -67,9 +67,14 @@ def driver(request):
         driver = EventFiringWebDriver(driver, MyListener())
         driver.implicitly_wait(10)
         driver.maximize_window()
+
     yield driver
     with allure.step('Driver teardown.'):
         if request.node.rep_call.failed:
             allure.attach(driver.get_screenshot_as_png(), name='Screenshot', attachment_type=AttachmentType.PNG)
+            allure.attach('http://10.8.0.99:8080/video/{}.mp4'.format(driver.session_id),name="Video",
+                attachment_type=allure.attachment_type.URI_LIST)
+
         driver.quit()
+
 
