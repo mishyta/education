@@ -1,10 +1,7 @@
 import logging
-
 import pytest
 from mainpage import MainPage, ProductCard
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from listen import MyListener
 from selenium.webdriver.support.events import EventFiringWebDriver, AbstractEventListener
 import allure
