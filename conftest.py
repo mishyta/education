@@ -44,6 +44,12 @@ def pytest_configure(config):
     config.option.allure_report_dir = ALLURE_RESULTS_DIR
     config.option.clean_alluredir = False
 
+@pytest.hookimpl(hookwrapper=True, tryfirst=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    rep = outcome.get_result()
+    setattr(item, "rep_" + rep.when, rep)
+    return rep
 
 @pytest.fixture(params=BROWSERS_FOR_TESTS)  # Driver fixture
 def driver(request):
@@ -63,5 +69,7 @@ def driver(request):
         driver.maximize_window()
     yield driver
     with allure.step('Driver teardown.'):
-        allure.attach(driver.get_screenshot_as_png(), name='Screenshot', attachment_type=AttachmentType.PNG)
-        driver.quit()
+        if request.node.rep_call.failed:
+            allure.attach(driver.get_screenshot_as_png(), name='Screenshot', attachment_type=AttachmentType.PNG)
+            driver.quit()
+
