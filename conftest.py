@@ -27,7 +27,7 @@ capabilities_ff = {
     "browserVersion": "92.0",
     "selenoid:options": {
         "enableVNC": True,
-        "enableVideo": False
+        "enableVideo": True
     }
 }
 
@@ -36,7 +36,7 @@ capabilities_chrome = {
     "browserVersion": "93.0",
     "selenoid:options": {
         "enableVNC": True,
-        "enableVideo": False
+        "enableVideo": True
     }
 }
 
@@ -45,7 +45,7 @@ capabilities_opera = {
     "browserVersion": "79.0",
     "selenoid:options": {
         "enableVNC": True,
-        "enableVideo": False
+        "enableVideo": True
     }
 }
 
