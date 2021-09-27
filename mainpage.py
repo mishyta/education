@@ -27,6 +27,8 @@ class MainPage(BasePage):
             self.click_on_element(*MainPage.submit_search_btn)
 
     def get_list_with_regular_prices(self):
+
+        self.driver.implicitly_wait(0)
         with allure.step('Get a list with discount items'):
             cards = self.get_elements(*ProductCard.locator)
             prices_list = list()

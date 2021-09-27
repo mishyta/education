@@ -11,7 +11,7 @@ import allure
 
 
 
-
+@allure.story('test_currency_comparison')
 @pytest.mark.parametrize('currency', ['UAH', 'EUR','USD'])
 def test_currency_comparison(driver, currency):  # 2
     page = MainPage(driver)
@@ -23,7 +23,7 @@ def test_currency_comparison(driver, currency):  # 2
         assert page.get_element_text(*page.currency_dropdown_current_value)[-1] == \
                page.get_element_text(*ProductCard.currency)[-1]
 
-
+@allure.story('test_total_search_products')
 @pytest.mark.parametrize('currency', ['USD'])  # ['UAH', 'EUR', 'USD']
 def test_total_search_products(driver, currency):
     page = MainPage(driver)
@@ -35,7 +35,7 @@ def test_total_search_products(driver, currency):
         assert page.count_elements(*ProductCard.locator) == int(page.get_element_text(*page.total_search_products)[-2])
 
 
-
+@allure.story('test_check_product_cards_currency')
 @pytest.mark.parametrize('currency', ['USD'])  # ['UAH', 'EUR', 'USD']
 def test_check_product_cards_currency(driver, currency):  # 6
     page = MainPage(driver)
@@ -48,7 +48,7 @@ def test_check_product_cards_currency(driver, currency):  # 6
             assert card.text[-1] == page.get_element_text(*page.currency_dropdown_current_value)[-1]
 
 
-
+@allure.story('test_check_sort_price_high_to_low')
 def test_check_sort_price_high_to_low(driver):
     page = MainPage(driver)
     page.open_page(page.url)
@@ -61,7 +61,7 @@ def test_check_sort_price_high_to_low(driver):
         assert sorted(prices_list_to_the_discount)[::-1] == prices_list_after_the_discount
 
 
-
+@allure.story('test_check_products_with_discount_contains_values')
 def test_check_products_with_discount_contains_values(driver):
     page = MainPage(driver)
     page.open_page(page.url)
@@ -69,6 +69,7 @@ def test_check_products_with_discount_contains_values(driver):
     cards = page.get_elements(*ProductCard.locator)
     with allure.step('For discount products, a percentage discount is indicated along with the price before and '
                      'after the discount.  '):
+        page.driver.implicitly_wait(0)
         for card in cards:
             card = ProductCard(card)
             if card.check_element_is(*card.discount):
@@ -76,13 +77,14 @@ def test_check_products_with_discount_contains_values(driver):
                 assert card.check_element_is(*card.regular_price)
 
 
-
+@allure.story('test_check_product_matching_discount')
 def test_check_product_matching_discount(driver):
     page = MainPage(driver)
     page.open_page(page.url)
     page.search('dress')
     with allure.step('Check that the price before and after the discount coincides with the specified discount size. '):
         cards = page.get_elements(*ProductCard.locator)
+        page.driver.implicitly_wait(0)
         for card in cards:
             card = ProductCard(card)
             if card.check_element_is(*card.discount):

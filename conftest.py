@@ -22,12 +22,30 @@ open(LOGGING_FILE, 'w').close()
 
 command_executor = "http://10.8.0.99:4444/wd/hub"
 
-capabilities = {
+capabilities_ff = {
     "browserName": "firefox",
     "browserVersion": "92.0",
     "selenoid:options": {
         "enableVNC": True,
-        "enableVideo": True
+        "enableVideo": False
+    }
+}
+
+capabilities_chrome = {
+    "browserName": "chrome",
+    "browserVersion": "93.0",
+    "selenoid:options": {
+        "enableVNC": True,
+        "enableVideo": False
+    }
+}
+
+capabilities_opera = {
+    "browserName": "opera",
+    "browserVersion": "79.0",
+    "selenoid:options": {
+        "enableVNC": True,
+        "enableVideo": False
     }
 }
 
@@ -36,17 +54,28 @@ def pytest_configure(config):
     config.option.clean_alluredir = False
 
 
-@pytest.fixture()  # Driver fixture
-def driver():
-    with allure.step('Init with capabilities: {}:{}'.format(capabilities['browserName'],capabilities['browserVersion'])):
-        driver = webdriver.Remote(command_executor=command_executor, desired_capabilities=capabilities)
-        driver = EventFiringWebDriver(driver,MyListener())
-        driver.implicitly_wait(0.3)
-        driver.maximize_window()
+# @pytest.fixture # Driver fixture
+# def driver():
+#     with allure.step('Init with capabilities: {}:{}'.format(capabilities['browserName'],capabilities['browserVersion'])):
+#         driver = webdriver.Remote(command_executor=command_executor, desired_capabilities=capabilities_ff)
+#         driver = EventFiringWebDriver(driver,MyListener())
+#         driver.implicitly_wait(0.3)
+#         driver.maximize_window()
+#     yield driver
+#     with allure.step('Driver teardown.'):
+#         allure.attach(driver.get_screenshot_as_png(), name='Screenshot', attachment_type=AttachmentType.PNG)
+#         driver.quit()
+
+@pytest.fixture(params=["chrome", "firefox", "opera"]) # Driver fixture
+def driver(request):
+    if request.param == "chrome":
+        driver = webdriver.Remote(command_executor=command_executor, desired_capabilities=capabilities_chrome)
+    if request.param == "firefox":
+        driver = webdriver.Remote(command_executor=command_executor, desired_capabilities=capabilities_ff)
+    if request.param == "opera":
+        driver = webdriver.Remote(command_executor=command_executor, desired_capabilities=capabilities_opera)
+    driver.implicitly_wait(10)
     yield driver
-    with allure.step('Driver teardown.'):
-        allure.attach(driver.get_screenshot_as_png(), name='Screenshot', attachment_type=AttachmentType.PNG)
-        driver.quit()
-
-
+    allure.attach(driver.get_screenshot_as_png(), name='Screenshot', attachment_type=AttachmentType.PNG)
+    driver.quit()
 
