@@ -8,7 +8,7 @@ import allure
 
 BROWSERS_FOR_TESTS = ["chrome", "firefox", "opera"]
 LOGGING_FILE = 'webdriver.log'
-COMMAND_EXECUTOR = "http://10.8.0.99:4444/wd/hub"
+COMMAND_EXECUTOR = "http://10.8.0.46:4444/wd/hub"
 ALLURE_RESULTS_DIR = 'allure-results'
 SELENOID_OPTIONS = {
     "enableVNC": True,
