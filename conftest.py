@@ -78,10 +78,10 @@ def driver(request):
         driver.maximize_window()
     yield driver
     with allure.step('Driver teardown.'):
-        if request.node.rep_call.failed:
-            allure.attach(driver.get_screenshot_as_png(),
+        # if request.node.rep_call.failed:
+        allure.attach(driver.get_screenshot_as_png(),
                           name='Screenshot', attachment_type=AttachmentType.PNG)
-            allure.attach('http://{}:{}/video/{}.mp4'.format(SELENOID_IP,SELENOID_UI_PORT,driver.session_id), name="Video",
+        allure.attach('http://{}:{}/video/{}.mp4'.format(SELENOID_IP,SELENOID_UI_PORT,driver.session_id), name="Video",
                           attachment_type=allure.attachment_type.MP4)
         driver.quit()
 
