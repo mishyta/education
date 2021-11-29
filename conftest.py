@@ -17,7 +17,8 @@ COMMAND_EXECUTOR = "http://{}:{}/wd/hub".format(SELENOID_IP,SELENOID_HUB_PORT)
 ALLURE_RESULTS_DIR = 'allure-results'
 SELENOID_OPTIONS = {
     "enableVNC": True,
-    "enableVideo": True
+    "enableVideo": True,
+    "videoName": "<date>"
 }
 
 CAPABILITIES_FF = {
