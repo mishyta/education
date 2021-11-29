@@ -82,10 +82,14 @@ def driver(request):
         # if request.node.rep_call.failed:
         allure.attach(driver.get_screenshot_as_png(),
                           name='Screenshot', attachment_type=AttachmentType.PNG)
-        allure.attach('10.8.0.46:8080/video/{}.mp4'.format(driver.session_id), name="Video",
-                          attachment_type=allure.attachment_type.MP4)
-        allure.attach('{}:{}/video/{}.mp4'.format(SELENOID_IP,SELENOID_UI_PORT,driver.session_id), name="url-video",
-                      attachment_type=allure.attachment_type.TEXT)
+
+        allure.attach("<html><body><video width='100%' height='100%' controls autoplay><source src='"
+           + "http://0.0.0.0:4444/video/" + driver.session_id + ".mp4"
+           +"' type='video/mp4'></video></body></html>", name="Video",
+                          attachment_type=allure.attachment_type.HTML)
+
+        # allure.attach('{}:{}/video/{}.mp4'.format(SELENOID_IP,SELENOID_UI_PORT,driver.session_id), name="url-video",
+        #               attachment_type=allure.attachment_type.TEXT)
         driver.quit()
 
 
