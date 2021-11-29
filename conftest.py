@@ -83,13 +83,11 @@ def driver(request):
         allure.attach(driver.get_screenshot_as_png(),
                           name='Screenshot', attachment_type=AttachmentType.PNG)
 
-        allure.attach("<html><body><video width='100%' height='100%' controls autoplay><source src='"
-           + "http://0.0.0.0:4444/video/" + driver.session_id + ".mp4"
-           +"' type='video/mp4'></video></body></html>", name="Video",
-                          attachment_type=allure.attachment_type.HTML)
+        allure.attach(f"""<video width='100%' height='100%' controls autoplay>
+                                <source src='http://{SELENOID_IP}:{SELENOID_HUB_PORT}/video/{driver.session_id}.mp4' type='video/mp4'>
+                            </video>""",
+                      name="Video", attachment_type=allure.attachment_type.HTML)
 
-        # allure.attach('{}:{}/video/{}.mp4'.format(SELENOID_IP,SELENOID_UI_PORT,driver.session_id), name="url-video",
-        #               attachment_type=allure.attachment_type.TEXT)
         driver.quit()
 
 
