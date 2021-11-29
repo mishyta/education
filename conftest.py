@@ -18,7 +18,7 @@ ALLURE_RESULTS_DIR = 'allure-results'
 SELENOID_OPTIONS = {
     "enableVNC": True,
     "enableVideo": True,
-    "videoName": "<date>"
+    # "videoName": "<date>"
 }
 
 CAPABILITIES_FF = {
@@ -84,6 +84,8 @@ def driver(request):
                           name='Screenshot', attachment_type=AttachmentType.PNG)
         allure.attach('http://{}:{}/video/{}.mp4'.format(SELENOID_IP,SELENOID_UI_PORT,driver.session_id), name="Video",
                           attachment_type=allure.attachment_type.MP4)
+        allure.attach('http://{}:{}/video/{}.mp4'.format(SELENOID_IP,SELENOID_UI_PORT,driver.session_id), name="url-video",
+                      attachment_type=allure.attachment_type.TEXT)
         driver.quit()
 
 
