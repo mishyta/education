@@ -10,7 +10,8 @@ SELENOID_IP = '10.8.0.46'
 SELENOID_HUB_PORT = '4444'
 SELENOID_UI_PORT = '8080'
 
-BROWSERS_FOR_TESTS = ["chrome", "firefox", "opera"]
+# "firefox", "opera"
+BROWSERS_FOR_TESTS = ["chrome"]
 LOGGING_FILE = 'webdriver.log'
 COMMAND_EXECUTOR = "http://{}:{}/wd/hub".format(SELENOID_IP,SELENOID_HUB_PORT)
 ALLURE_RESULTS_DIR = 'allure-results'
@@ -22,7 +23,7 @@ SELENOID_OPTIONS = {
 CAPABILITIES_FF = {
     "browserName": "firefox",
     "browserVersion": "92.0",
-    "selenoid:options": SELENOID_OPTIONS
+    # "selenoid:options": SELENOID_OPTIONS
 }
 
 CAPABILITIES_CHROME = {
@@ -75,7 +76,6 @@ def driver(request):
         driver = EventFiringWebDriver(driver, MyListener())
         driver.implicitly_wait(10)
         driver.maximize_window()
-
     yield driver
     with allure.step('Driver teardown.'):
         if request.node.rep_call.failed:
@@ -84,3 +84,17 @@ def driver(request):
             allure.attach('http://{}:{}/video/{}.mp4'.format(SELENOID_IP,SELENOID_UI_PORT,driver.session_id), name="Video",
                           attachment_type=allure.attachment_type.MP4)
         driver.quit()
+
+
+# @pytest.fixture()
+# def driver(request):
+#     driver = webdriver.Remote(command_executor='https://mykhailoknysh_Kj5TYU:DyVJpk7iQPjYwM5z4Fr3@hub-cloud.browserstack.com/wd/hub',desired_capabilities= {
+#       'realMobile': 'true',
+#       'browserName': 'android',
+#       'device': 'Samsung Galaxy S21 Ultra',
+#       'os_version': '11.0',
+#       'name': 'android', # test name
+#       'build': 'browserstack-build-1'
+#       })
+#     yield driver
+#     driver.quit()
