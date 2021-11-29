@@ -28,7 +28,7 @@ CAPABILITIES_FF = {
 
 CAPABILITIES_CHROME = {
     "browserName": "chrome",
-    "browserVersion": "93.0",
+    "browserVersion": "96.0",
     "selenoid:options": SELENOID_OPTIONS
 }
 
