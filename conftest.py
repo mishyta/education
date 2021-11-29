@@ -83,7 +83,7 @@ def driver(request):
         allure.attach(driver.get_screenshot_as_png(),
                           name='Screenshot', attachment_type=AttachmentType.PNG)
 
-        allure.attach("<html><body><video  controls autoplay><source src='"
+        allure.attach("<html><body><video width='100%' height='100%' controls autoplay><source src='"
            + "http://0.0.0.0:4444/video/" + driver.session_id + ".mp4"
            +"' type='video/mp4'></video></body></html>", name="Video",
                           attachment_type=allure.attachment_type.HTML)
